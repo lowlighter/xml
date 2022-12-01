@@ -55,7 +55,7 @@ export class Parser {
         //Extract prolog and doctype
         if (this.#peek(tokens.prolog.start)) {
           if (document.xml) {
-            throw new SyntaxError("Multiple prolog declaration found");
+            throw Object.assign(new SyntaxError("Multiple prolog declaration found"), {stack:undefined});
           }
           clean = false;
           Object.assign(document, this.#prolog({ path }));
@@ -63,7 +63,7 @@ export class Parser {
         }
         if (this.#peek(tokens.doctype.start)) {
           if (document.doctype) {
-            throw new SyntaxError("Multiple doctype declaration found");
+            throw Object.assign(new SyntaxError("Multiple doctype declaration found"), {stack:undefined});
           }
           clean = false;
           Object.assign(document, this.#doctype({ path }));
@@ -73,7 +73,7 @@ export class Parser {
         //Extract root node
         if (this.#peek(tokens.tag.start)) {
           if (root) {
-            throw new SyntaxError("Multiple root elements found");
+            throw Object.assign(new SyntaxError("Multiple root elements found"), {stack:undefined});
           }
           clean = false;
           Object.assign(document, this.#node({ path }));
@@ -193,6 +193,7 @@ export class Parser {
     if (!selfclosed) {
       //Text node
       if ((this.#peek(tokens.cdata.start)) || (!this.#peek(tokens.tag.start))) {
+        this.#debug([...path, tag], "found text node");
         Object.assign(tag, this.#text({ close: name, path: [...path, tag] }));
       } //Child nodes
       else {
