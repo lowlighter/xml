@@ -87,5 +87,18 @@
       "**/wasm_*",
       "**/*.mjs"
     ]
-  }
+  },
+  "workspaces": [
+    "bundle/",
+    "crypto/",
+    "diff/",
+    "logger/",
+    "orm/",
+    "qrcode/",
+    "reactive/",
+    "run/",
+    "testing/",
+    "typing/",
+    "xml/"
+  ]
 }
